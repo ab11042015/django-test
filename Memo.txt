@@ -1,0 +1,74 @@
+
+***************Virtualen******************************
+
+virtualebv -p python3 .--> create the virtual envirement and the "." put eh
+                    --->folder in the virtual envirement
+
+
+source bin/activate ---> will show the envirement inside the folder
+
+
+*****************************************************
+
+***************django******************************
+django-admin.py start project trydjango2 . --> Generate the file for
+              -----> the startproject, DON'T FORGET THE "."
+
+the src is the root of the project
+
+
+********************Creat apps**********************
+1- python manage.py startapp music --> Create the app music
+
+2- Go to the models file of music app and make the classes as bellow
+
+class Album(models.Model):
+  artist = models.CharField(max_length=250)
+
+  class Song(models.Model):
+      album = models.ForeignKey(Album, on_delete=models.CASCADE)
+
+3-Go to global setting.py --> INSTALLED_APPS and add music.apps.MusicConfig
+
+4-python python.py makemigrations Music --> Create the make file ready for the migration
+
+4-a 'Optional' python manage.py sqlmigrate music 0001 --. Show the migration commande
+
+5- python manage.py migrate --> migrate the makes file
+
+******************django API***************************
+1-python manage.py shell --> special django api
+2- from music.models import Album, Song
+3-Album.object.all()--> [] as it is still Empty
+4- a = Album(artist="",album_title"",genre="",album_logo="")
+5- a.save()
+  Or b=Album()
+      b.artist="kjhsrigh"
+      b.genre="kjbphuipoui"
+      b.save()
+6- Add to music/model.py
+def __str__(self):
+    return self.album_title +' - ' self.genre
+
+7- Album.objects.filter(id=1)--> Take the row with id =1
+
+8- Album.objects.filter(artist__startswith='Taylor')
+
+Connect databases********************
+album1 = Album.objects.get(pk=1)
+album1.song_set.all()
+album1.song_set.create(song_title='I love beef', file_type='mp3')
+song = album1.song_set.create(song_title='I love beef', file_type='mp3')
+--> Return the complete object
+album1.song_set.all()
+album1.song_set.count()
+
+**********Admin***********
+python manage.py createsuperuser --> username:admin /pass playstation3
+to add music model into Site administration go to:
+music/admin.py and type:
+  from .models import Album
+
+  admin.site.register(Album)
+
+  *******************Views***********
